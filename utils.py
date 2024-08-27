@@ -27,7 +27,7 @@ def read_with_pil(list_of_images: list, resize: bool = True) -> list:
             pil_images.append(img)
         except Exception as e:
             logging.warning(f"Failed to process {img_path}: {e}")
-    logging.info("Image reading done!")
+    logging.info(f"Total images read: {len(pil_images)}")
     return pil_images
 
 
