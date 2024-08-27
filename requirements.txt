@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+numpy
+pandas
+torch
+tqdm
+faiss-cpu
+open_clip_torch
+matplotlib
