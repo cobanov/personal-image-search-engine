@@ -96,10 +96,10 @@ class QueryEngine(EmbeddingGenerator):
         distances, indices = self.index.search(image_query_vector, k)
         return distances, indices
 
-    def search_text(self, text, index, k=5):
+    def search_text(self, text, k=5):
         text_embedding = self.generate_text_embedding(text)
         text_query_vector = np.expand_dims(text_embedding, axis=0)
-        distances, indices = index.search(text_query_vector, k)
+        distances, indices = self.index.search(text_query_vector, k)
         return distances, indices
 
 
