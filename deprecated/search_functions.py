@@ -1,14 +1,15 @@
-import faiss
-import numpy as np
-import pandas as pd
-import utils
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-import generate_embeddings
-
 import os
 
-os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+import faiss
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from tqdm import tqdm
+
+import generate_embeddings
+import utils
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # ? Fix this with a better solution
 
 
 source_image = "./mertcobanov/2021-06-25_19-15-06_UTC_4.jpg"
