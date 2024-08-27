@@ -1,9 +1,13 @@
+# Personal Image Search Engine
+
 ## To-Do
 
 - [ ] Find a good name for the project
-- [ ] Multiprocessing image reading
+- [x] Multiprocessing image reading
 - [ ] Multigpu embedding calculation
 - [ ] Save embedddings embeddings folder, create if not exists
+- [ ] FastAPI interface
+- [ ] Web app
 
 ## Creating Image Database
 
