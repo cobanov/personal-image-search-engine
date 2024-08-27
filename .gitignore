@@ -164,3 +164,4 @@ cython_debug/
 embeddings/
 dataset/
 *.ipynb
+webui/uploaded_images
