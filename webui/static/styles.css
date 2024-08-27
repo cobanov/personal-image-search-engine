@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin: 0;
+}
+
+/* Search Container Styles */
+.search-container {
+  margin-bottom: 20px;
+}
+
+#search-bar {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button Styles */
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #009688;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #00796b;
+}
+
+/* Upload Container Styles */
+.upload-container {
+  width: 300px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.upload-container.dragging {
+  border-color: #009688;
+  background-color: #f0f0f0;
+}
+
+/* Image Results Styles */
+.image-results {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Result Image Styles */
+.result-image {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.result-image:hover {
+  transform: scale(1.2);
+  z-index: 1;
+}

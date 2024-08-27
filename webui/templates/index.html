@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Upload and Search</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="search-container">
+      <form id="search-form">
+        <input
+          type="text"
+          id="search-bar"
+          name="query"
+          placeholder="Search..."
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="upload-container" id="upload-container">
+      <h2>Drag and Drop Image Here to Search</h2>
+      <input type="file" id="file-input" hidden />
+    </div>
+
+    <div id="image-results" class="image-results"></div>
+
+    <script>
+      const searchForm = document.getElementById("search-form");
+      const imageResults = document.getElementById("image-results");
+      const uploadContainer = document.getElementById("upload-container");
+      const fileInput = document.getElementById("file-input");
+
+      searchForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(searchForm);
+        const response = await fetch("/search/", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        displayImages(result.image_paths);
+      });
+
+      // Handle drag and drop for image search
+      uploadContainer.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        uploadContainer.classList.add("dragging");
+      });
+
+      uploadContainer.addEventListener("dragleave", () => {
+        uploadContainer.classList.remove("dragging");
+      });
+
+      uploadContainer.addEventListener("drop", async (event) => {
+        event.preventDefault();
+        uploadContainer.classList.remove("dragging");
+
+        const file = event.dataTransfer.files[0];
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await fetch("/upload/", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          displayImages(result.image_paths);
+        }
+      });
+
+      function displayImages(imagePaths) {
+        imageResults.innerHTML = "";
+        imagePaths.slice(0, 20).forEach((path) => {
+          const img = document.createElement("img");
+          img.src = path;
+          img.alt = "Search result";
+          img.className = "result-image";
+          imageResults.appendChild(img);
+        });
+      }
+    </script>
+  </body>
+</html>

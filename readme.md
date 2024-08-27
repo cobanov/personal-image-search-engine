@@ -2,12 +2,16 @@
 
 ## To-Do
 
-- [ ] Find a good name for the project
+- [x] Find a good name for the project -> Segaf
 - [x] Multiprocessing image reading
 - [ ] Multigpu embedding calculation
 - [ ] Save embedddings embeddings folder, create if not exists
 - [ ] FastAPI interface
 - [ ] Web app
+
+## Solve this
+
+C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload
 
 ## Creating Image Database
 

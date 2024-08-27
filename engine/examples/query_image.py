@@ -2,15 +2,15 @@ import os
 
 import pandas as pd
 
-import embedding_model
-import utils
-from plotting import plot_list_of_images
+import segaf.segaf as segaf
+import segaf.utils as utils
+from segaf.plotting import plot_list_of_images
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 
 # Initialize the embedding model
-query_engine = embedding_model.QueryEngine()
+query_engine = segaf.QueryEngine()
 
 # Load the faiss index
 query_engine.load_faiss_index("./embeddings/faiss_index.index")

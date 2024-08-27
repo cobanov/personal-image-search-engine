@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-import utils
+import segaf.utils as utils
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # ? Fix this with a better solution
 

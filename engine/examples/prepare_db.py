@@ -1,5 +1,5 @@
-import utils
-from embedding_model import EmbeddingGenerator
+import segaf.utils as utils
+from segaf.segaf import EmbeddingGenerator
 
 # Initialize the model
 eg = EmbeddingGenerator()
