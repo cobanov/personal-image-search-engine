@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 def read_images_from_directory(image_directory: str) -> list:
     list_of_images = []
-    image_extensions = ("*.gif", "*.png", "*.jpg", "*.jpeg")
+    image_extensions = ("*.png", "*.jpg", "*.jpeg")
     for ext in image_extensions:
         list_of_images.extend(glob.glob(os.path.join(image_directory, ext)))
     logging.info(f"Images found: {len(list_of_images)}")
