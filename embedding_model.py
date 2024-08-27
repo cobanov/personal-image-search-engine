@@ -75,6 +75,7 @@ class EmbeddingGenerator(EmbeddingModel):
                 image_features /= image_features.norm(dim=-1, keepdim=True)
                 image_features = image_features.squeeze(0)
                 embeddings.append(image_features.cpu().numpy())
+        logging.info(f"Total embeddings generated: {len(embeddings)}")
         return np.array(embeddings)
 
     def calculate_probabilities(self, image_features, text_features):  #! Not Sure!
