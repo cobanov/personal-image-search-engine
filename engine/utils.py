@@ -106,12 +106,11 @@ def read_images_from_directory(
     return image_paths
 
 
-# Example usage
-if __name__ == "__main__":
-    directory = "path/to/your/images"
+def read_image(image_path: str) -> Optional[Image.Image]:
+    """
+    Reads a single image from a file path.
 
-    # Get the list of image paths
-    image_paths = read_images_from_directory(directory, multiprocess=True)
-
-    # Convert the image paths to PIL images
-    pil_images = read_images_with_pil(image_paths, multiprocess=True)
+    :param image_path: Path to the image file.
+    :return: PIL Image object or None if failed.
+    """
+    return process_image(image_path)
