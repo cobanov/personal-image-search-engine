@@ -1,16 +1,18 @@
-from fastapi import FastAPI, File, UploadFile, Form
+import os
+import sys
+
+import pandas as pd
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
-import os
-import pandas as pd
-import sys
 
 sys.path.append(os.path.abspath("../engine"))
 
-from engine import EmbeddingGenerator, QueryEngine
 from utils import read_image
+
+from engine import EmbeddingGenerator, QueryEngine
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
@@ -58,7 +60,6 @@ async def upload_image(file: UploadFile = File(...)):
 
 @app.post("/search/")
 async def search(query: str = Form(...)):
-
     distances, indices = query_engine.search_text(query, 20)
     nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
 
