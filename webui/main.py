@@ -30,13 +30,13 @@ app.mount(
 templates = Jinja2Templates(directory="templates")
 
 
-index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_faiss.index"
-file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_paths.csv"
+index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_sample.index"
+file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_sample.csv"
 
 query_engine = QueryEngine()
 
 query_engine.load_faiss_index(index_file_path)
-file_paths = pd.read_csv(file_paths_path)["file_path"]
+file_paths = pd.read_csv(file_paths_path)["img_path"]
 
 
 @app.get("/", response_class=HTMLResponse)
