@@ -30,8 +30,8 @@ app.mount(
 templates = Jinja2Templates(directory="templates")
 
 
-index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_faiss.index"
-file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_paths.csv"
+index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_faiss.index"
+file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\fauna_paths.csv"
 
 query_engine = QueryEngine()
 
@@ -52,7 +52,7 @@ async def upload_image(file: UploadFile = File(...)):
         file_object.write(file.file.read())
 
     img = read_image(file_location)
-    distances, indices = query_engine.search_images(img, 20)
+    distances, indices = query_engine.search_images(img, 21)
     nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
 
     return {"image_paths": nearest_neighbors_paths}
@@ -60,7 +60,7 @@ async def upload_image(file: UploadFile = File(...)):
 
 @app.post("/search/")
 async def search(query: str = Form(...)):
-    distances, indices = query_engine.search_text(query, 20)
+    distances, indices = query_engine.search_text(query, 21)
     nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
 
     return {"image_paths": nearest_neighbors_paths}
