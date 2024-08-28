@@ -32,6 +32,9 @@ class EmbeddingModel:
 
     @staticmethod
     def save_file_paths(file_paths, save_path):
+        if not save_path.endswith(".csv"):
+            save_path += ".csv"
+
         df = pd.DataFrame({"file_path": file_paths})
         df.to_csv(save_path, index=True)
         logging.info(f"File paths saved to {save_path}.csv")
