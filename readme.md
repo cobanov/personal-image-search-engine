@@ -6,12 +6,53 @@
 - [x] Multiprocessing image reading
 - [ ] Multigpu embedding calculation
 - [ ] Save embedddings embeddings folder, create if not exists
-- [ ] FastAPI interface
-- [ ] Web app
+- [x] FastAPI interface
+- [x] Web app
+- [ ] dockerfile
 
-## Solve this
+## Known Problems
 
+### uvicorn environment resolution is problematic
+
+```bash
 C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload
+```
+
+### relative and absolute paths for image dataset and image paths
+
+```python
+app.mount(
+    "/dataset",
+    StaticFiles(
+        directory="C:/Users/hope/Desktop/developer/personal-image-search-engine/dataset"
+    ),
+    name="dataset",
+)
+
+```
+
+### embedding files are not in the correct place
+
+```python
+index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_faiss.index"
+file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_paths.csv"
+```
+
+### lib40ml problem
+
+```python
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+```
+
+### relative imports are mess
+
+```python
+sys.path.append(os.path.abspath("../engine"))
+
+from utils import read_image
+
+from engine import EmbeddingGenerator, QueryEngine
+```
 
 ## Creating Image Database
 
