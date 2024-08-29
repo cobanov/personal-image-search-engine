@@ -3,11 +3,10 @@ import logging
 import faiss
 import numpy as np
 import open_clip
-import pandas as pd
 import torch
 from tqdm import tqdm
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
 
 class EmbeddingModel:
@@ -24,29 +23,29 @@ class EmbeddingModel:
         tokenizer = open_clip.get_tokenizer(model_name)
         return model, tokenizer, preprocess
 
-    @staticmethod
-    def save_embeddings_as_npy(embeddings, save_path):
-        print(embeddings.shape)
-        np.save(save_path, np.array(embeddings))
-        logging.info(f"Embeddings saved to {save_path}.npy")
+    # @staticmethod
+    # def save_embeddings_as_npy(embeddings, save_path):
+    #     print(embeddings.shape)
+    #     np.save(save_path, np.array(embeddings))
+    #     logging.info(f"Embeddings saved to {save_path}.npy")
 
-    @staticmethod
-    def save_file_paths(file_paths, save_path):
-        if not save_path.endswith(".csv"):
-            save_path += ".csv"
+    # @staticmethod
+    # def save_file_paths(file_paths, save_path):
+    #     if not save_path.endswith(".csv"):
+    #         save_path += ".csv"
 
-        df = pd.DataFrame({"file_path": file_paths})
-        df.to_csv(save_path, index=True)
-        logging.info(f"File paths saved to {save_path}.csv")
+    #     df = pd.DataFrame({"file_path": file_paths})
+    #     df.to_csv(save_path, index=True)
+    #     logging.info(f"File paths saved to {save_path}.csv")
 
-    @staticmethod
-    def save_faiss_index(embeddings, save_path):
-        embedding_dim = embeddings.shape[1]
-        index = faiss.IndexFlatL2(embedding_dim)
-        index.add(embeddings)
-        print(f"Total number of embeddings indexed: {index.ntotal}")
-        faiss.write_index(index, save_path)
-        logging.info(f"FAISS index saved to {save_path}")
+    # @staticmethod
+    # def save_faiss_index(embeddings, save_path):
+    #     embedding_dim = embeddings.shape[1]
+    #     index = faiss.IndexFlatL2(embedding_dim)
+    #     index.add(embeddings)
+    #     print(f"Total number of embeddings indexed: {index.ntotal}")
+    #     faiss.write_index(index, save_path)
+    #     logging.info(f"FAISS index saved to {save_path}")
 
 
 class EmbeddingGenerator(EmbeddingModel):
