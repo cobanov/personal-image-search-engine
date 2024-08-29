@@ -1,80 +1,131 @@
-/* General Styles */
+/* Universal Box Sizing */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Lucida Console", monospace;
+  font-size: 11px; /* Increased for better readability */
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 20px 0; /* Adjusted padding to avoid overflow */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  margin: 0;
+  min-height: 100vh;
 }
 
-/* Search Container Styles */
-.search-container {
-  margin-bottom: 20px;
+.container {
+  width: 100%;
+  max-width: 600px; /* Increased max-width for larger screens */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#search-bar {
+input,
+button,
+.upload-container {
+  width: 100%;
   padding: 10px;
-  width: 300px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #000;
+  color: #f0f0f0;
+  border: 1px solid #f0f0f0; /* Increased contrast for accessibility */
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
-/* Button Styles */
 button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #009688;
-  color: white;
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #00796b;
+  background-color: #f0f0f0;
+  color: #000;
 }
 
-/* Upload Container Styles */
 .upload-container {
-  width: 300px;
-  height: 200px;
-  border: 2px dashed #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   cursor: pointer;
-  margin-bottom: 20px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  text-align: center;
+  background-color: #000;
+  color: #f0f0f0;
+  border: 1px solid #f0f0f0;
+  padding: 10px;
+}
+
+.upload-container:hover {
+  background-color: #f0f0f0;
+  color: #000;
 }
 
 .upload-container.dragging {
-  border-color: #009688;
   background-color: #f0f0f0;
+  color: #000;
 }
 
-/* Image Results Styles */
 .image-results {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-top: 20px;
+  gap: 20px; /* Increased gap for better spacing */
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Result Image Styles */
 .result-image {
   width: 100%;
   height: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px #f0f0f0; /* Increased border size */
   transition: transform 0.3s ease;
+  transform-origin: center; /* Control scale origin */
 }
 
 .result-image:hover {
-  transform: scale(1.2);
-  z-index: 1;
+  transform: scale(1.2); /* Reduced scale factor to avoid overlap */
+}
+
+/* Responsive Grid Layout */
+@media (min-width: 1024px) {
+  .image-results {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .image-results {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .image-results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.footer {
+  width: 100%;
+  max-width: 600px; /* Increased max-width for consistency with container */
+  padding: 10px 0;
+  text-align: center;
+  color: #f0f0f0;
+  font-size: 12px; /* Slightly increased font size */
+  border-top: 1px solid #f0f0f0; /* Matched border color for consistency */
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+.footer-link {
+  color: #f0f0f0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #fff;
 }

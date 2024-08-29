@@ -2,29 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title>Image Upload and Search</title>
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <div class="search-container">
-      <form id="search-form">
-        <input
-          type="text"
-          id="search-bar"
-          name="query"
-          placeholder="Search..."
-        />
-        <button type="submit">Search</button>
-      </form>
+    <div class="wrapper">
+      <div class="search-container">
+        <form id="search-form" aria-label="Search Form">
+          <input
+            type="text"
+            id="search-bar"
+            name="query"
+            placeholder="Search..."
+            aria-label="Search Query"
+            required
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      <div
+        class="upload-container"
+        id="upload-container"
+        aria-label="Image Upload"
+      >
+        <p id="upload-text">
+          Click to upload or Drag and Drop Image Here to Search
+        </p>
+        <input type="file" id="file-input" hidden aria-label="File Input" />
+      </div>
+
+      <div id="image-results" class="image-results" aria-live="polite"></div>
     </div>
 
-    <div class="upload-container" id="upload-container">
-      <h2>Drag and Drop Image Here to Search</h2>
-      <input type="file" id="file-input" hidden />
-    </div>
-
-    <div id="image-results" class="image-results"></div>
+    <footer class="footer">
+      <p>&copy; 2024 Refik Anadol Studio. All rights reserved.</p>
+    </footer>
 
     <script>
       const searchForm = document.getElementById("search-form");
@@ -74,12 +91,33 @@
         }
       });
 
+      // Handle click to upload
+      uploadContainer.addEventListener("click", () => {
+        fileInput.click(); // Trigger the hidden file input click
+      });
+
+      fileInput.addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const response = await fetch("/upload/", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          displayImages(result.image_paths);
+        }
+      });
+
       function displayImages(imagePaths) {
         imageResults.innerHTML = "";
-        imagePaths.slice(0, 21).forEach((path) => {
+        imagePaths.slice(0, 24).forEach((path) => {
           const img = document.createElement("img");
           img.src = path;
-          img.alt = "Search result";
+          img.alt = "Search result image";
           img.className = "result-image";
           imageResults.appendChild(img);
         });
