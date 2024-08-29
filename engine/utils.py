@@ -3,11 +3,13 @@ import logging
 import os
 from multiprocessing import Pool, cpu_count
 from typing import Dict, List, Optional
-
+import pandas as pd
 from PIL import Image
 from tqdm import tqdm
+import numpy as np
+import faiss
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
 
 def find_images(image_directory: str) -> List[str]:
@@ -83,3 +85,5 @@ def process_images_multiprocessing(
 
     logging.info(f"Images processed successfully: {len(results)}")
     return results
+
+
