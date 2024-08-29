@@ -16,6 +16,7 @@
 
 ```bash
 C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload
+C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload --host 0.0.0.0 --port 7777
 ```
 
 ### relative and absolute paths for image dataset and image paths
