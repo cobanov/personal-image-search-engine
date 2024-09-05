@@ -165,3 +165,5 @@ embeddings/
 dataset/
 *.ipynb
 webui/uploaded_images
+*.txn
+*.lance
