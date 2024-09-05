@@ -1,3 +1,6 @@
+>  ## ⚠️  **Warning:** This project is under heavy development and may undergo significant changes.
+
+
 # Personal Image Search Engine
 
 ## To-Do
