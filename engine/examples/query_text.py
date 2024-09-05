@@ -1,7 +1,6 @@
 import os
 
 import pandas as pd
-
 import segaf.segaf as segaf
 import segaf.utils as utils
 from segaf.plotting import plot_list_of_images

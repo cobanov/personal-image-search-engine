@@ -2,13 +2,20 @@
 
 ## To-Do
 
-- [x] Find a good name for the project -> Segaf
+- [ ] Find a good name for the project
 - [x] Multiprocessing image reading
 - [ ] Multigpu embedding calculation
 - [ ] Save embedddings embeddings folder, create if not exists
 - [x] FastAPI interface
 - [x] Web app
 - [ ] dockerfile
+- [ ] Face Engine
+- [ ] Migrate DB to LanceDB
+- [ ] 
+
+## Tasks
+
+- [] Test save utils.save_image_paths_as_csv()
 
 ## Known Problems
 

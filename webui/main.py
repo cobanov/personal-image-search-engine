@@ -10,9 +10,8 @@ from starlette.requests import Request
 
 sys.path.append(os.path.abspath("../engine"))
 
-from utils import read_image
-
 from engine import EmbeddingGenerator, QueryEngine
+from utils import read_image
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
