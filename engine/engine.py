@@ -2,7 +2,6 @@ import numpy as np
 import open_clip
 import pandas as pd
 import torch
-from tqdm import tqdm
 
 from engine import utils
 

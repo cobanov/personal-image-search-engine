@@ -1,6 +1,4 @@
-import numpy as np
 from torch.utils.data import DataLoader, Dataset
-from tqdm import tqdm
 
 from engine import utils
 
