@@ -1,46 +1,46 @@
-> ## ⚠️ **Warning:** This project is under heavy development and may undergo significant changes.
+## ⚠️ **Warning:** This project is under active development and may undergo significant changes.
 
 # Personal Image Search Engine
 
 ## To-Do
 
-- [ ] Find a good name for the project
-- [x] Multiprocessing image reading
-- [ ] Multigpu embedding calculation
-- [x] Save embedddings embeddings folder, create if not exists
-- [x] FastAPI interface
-- [x] Web app
-- [x] dockerfile
-- [ ] Face Engine
-- [x] Migrate DB to LanceDB
-- [ ] Load imagepaths from filelist.txt
-- [x] Logging should be seperate
-- [x] Lancdb on webapp
-- [x] I don't think batch processing works properly, use torch stack
+- [ ] Find a suitable name for the project.
+- [x] Enable multiprocessing for image reading.
+- [ ] Implement multi-GPU support for embedding calculations.
+- [x] Save embeddings in a designated folder (create if not exists).
+- [x] Implement a FastAPI-based interface.
+- [x] Build a web app.
+- [x] Create a Dockerfile for easy deployment.
+- [ ] Integrate Face Detection Engine.
+- [x] Migrate the database to LanceDB.
+- [ ] Load image paths from `filelist.txt`.
+- [x] Separate logging functionality for better modularity.
+- [x] Integrate LanceDB with the web app.
+- [x] Fix batch processing in embedding calculations using `torch.stack()`.
 
 ## Benchmarks
 
-- _20k images 25min on 3090ti 06.09.2024_
-
-## Tasks
-
-- [] Test save utils.save_image_paths_as_csv()
+- **Performance**: _20k images processed in 13 minutes on an NVIDIA 3090 Ti (as of 06.09.2024)._
 
 ## Installation
 
-```
+To get started, install the required packages:
+
+```bash
 pip install -r requirements.txt
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
 ## Docker
 
+You can build and run the project using Docker:
+
 ```bash
 docker build -t personal-image-search .
 docker run -p 7777:7777 personal-image-search
 ```
 
-or
+Alternatively, using Docker Compose:
 
 ```bash
 docker-compose up --build
@@ -48,138 +48,36 @@ docker-compose up --build
 
 ## Usage
 
+### Running the FastAPI app using scripts
+
+#### Windows
+
+Run the following script:
+
 ```bash
-python -m uvicorn webui.main:app --reload --host 0.0.0.0 --port 7777
+start_server.bat
 ```
 
-## Known Problems
+#### Linux/macOS
 
-### relative and absolute paths for image dataset and image paths
+First, ensure the script has executable permissions:
 
-```python
-app.mount(
-    "/dataset",
-    StaticFiles(
-        directory="C:/Users/hope/Desktop/developer/personal-image-search-engine/dataset"
-    ),
-    name="dataset",
-)
-
+```bash
+chmod +x start_server.sh
 ```
 
-### embedding files are not in the correct place
+Then run it:
 
-```python
-index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_faiss.index"
-file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\random_images_paths.csv"
+```bash
+./start_server.sh
 ```
 
-### lib40ml problem
+## Known Issues
+
+### lib40ml Problem
+
+In case you encounter issues related to `lib40ml`, you can resolve them by setting the following environment variable in your code:
 
 ```python
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-```
-
-### relative imports are mess
-
-```python
-sys.path.append(os.path.abspath("../engine"))
-
-from utils import read_image
-
-from engine import EmbeddingGenerator, QueryEngine
-```
-
-## Creating Image Database
-
-```python
-import utils
-from embedding_model import EmbeddingGenerator
-
-# Initialize the model
-eg = EmbeddingGenerator()
-
-# Generate embeddings from folder
-image_folder = "./dataset/random"
-image_paths = utils.read_images_from_directory(image_folder)
-imgs = utils.read_with_pil(image_paths)
-
-# Generate embeddings from images
-img_embeddings = eg.generate_image_embeddings(imgs)
-
-# Save the embeddings, file paths and faiss index
-eg.save_embeddings_as_npy(img_embeddings, "embeddings/random_images_embeddings.npy")
-eg.save_file_paths(image_paths, "embeddings/random_images_paths.csv")
-eg.save_faiss_index(img_embeddings, "embeddings/random_images_faiss.index")
-```
-
-## Query Image
-
-```python
-import os
-
-import pandas as pd
-
-import embedding_model
-import utils
-from plotting import plot_list_of_images
-
-os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
-
-# Initialize the embedding model
-query_engine = embedding_model.QueryEngine()
-
-# Load the faiss index
-query_engine.load_faiss_index("./embeddings/faiss_index.index")
-
-# Query an image
-source_image = r"dataset\random\2023-04-02_15-15-53_UTC.jpg"
-file_paths = "embeddings/file_paths.csv"
-
-# Load the file paths
-file_paths = pd.read_csv(file_paths)["file_path"]
-img = utils.read_image(source_image)
-
-# Search for the nearest neighbors
-distances, indices = query_engine.search_images(img, 4)
-nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
-
-# Plot the source image and the nearest neighbors
-plot_list_of_images(source_image, nearest_neighbors_paths)
-```
-
-### Query Text
-
-```python
-import os
-
-import pandas as pd
-
-import embedding_model
-import utils
-from plotting import plot_list_of_images
-
-os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-
-
-# Initialize the embedding model
-query_engine = embedding_model.QueryEngine()
-
-# Load the faiss index
-query_engine.load_faiss_index("./embeddings/faiss_index.index")
-
-# Query an image
-text_query = r"a puppy dog"
-file_paths = "embeddings/file_paths.csv"
-
-# Load the file paths
-file_paths = pd.read_csv(file_paths)["file_path"]
-
-# Search for the nearest neighbors
-distances, indices = query_engine.search_text(text_query, 4)
-nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
-
-# Plot the source image and the nearest neighbors
-plot_list_of_images(None, nearest_neighbors_paths)
 ```
