@@ -161,9 +161,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-embeddings/
-dataset/
 *.ipynb
-webui/uploaded_images
 *.txn
 *.lance
+
+embeddings/
+dataset/
+database/
+uploaded_images/
+logs/
