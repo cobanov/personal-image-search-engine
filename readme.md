@@ -10,13 +10,13 @@
 - [x] Save embedddings embeddings folder, create if not exists
 - [x] FastAPI interface
 - [x] Web app
-- [ ] dockerfile
+- [x] dockerfile
 - [ ] Face Engine
 - [x] Migrate DB to LanceDB
 - [ ] Load imagepaths from filelist.txt
-- [ ] Logging should be seperate
-- [ ] Lancdb on webapp
-- [ ] I don't think batch processing works properly, use torch stack
+- [x] Logging should be seperate
+- [x] Lancdb on webapp
+- [x] I don't think batch processing works properly, use torch stack
 
 ## Benchmarks
 
