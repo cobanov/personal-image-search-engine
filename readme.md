@@ -14,7 +14,7 @@
 - [ ] dockerfile
 - [ ] Face Engine
 - [ ] Migrate DB to LanceDB
-- [ ] 
+- [ ] Load imagepaths from filelist.txt
 
 ## Tasks
 

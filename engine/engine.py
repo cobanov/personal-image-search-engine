@@ -1,13 +1,12 @@
 import logging
 
-import faiss
 import numpy as np
 import open_clip
 import pandas as pd
 import torch
 from tqdm import tqdm
 
-import utils
+from engine import utils
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -50,14 +49,14 @@ class EmbeddingModel:
         df.to_csv(save_path, index=True)
         logging.info(f"File paths saved to {save_path}.csv")
 
-    @staticmethod
-    def save_faiss_index(embeddings: np.ndarray, save_path: str) -> None:
-        embedding_dim = embeddings.shape[1]
-        index = faiss.IndexFlatL2(embedding_dim)
-        index.add(embeddings)
-        logging.info(f"Total number of embeddings indexed: {index.ntotal}")
-        faiss.write_index(index, save_path)
-        logging.info(f"FAISS index saved to {save_path}")
+    # @staticmethod
+    # def save_faiss_index(embeddings: np.ndarray, save_path: str) -> None:
+    #     embedding_dim = embeddings.shape[1]
+    #     index = faiss.IndexFlatL2(embedding_dim)
+    #     index.add(embeddings)
+    #     logging.info(f"Total number of embeddings indexed: {index.ntotal}")
+    #     faiss.write_index(index, save_path)
+    #     logging.info(f"FAISS index saved to {save_path}")
 
 
 class EmbeddingGenerator(EmbeddingModel):
@@ -140,40 +139,40 @@ class EmbeddingGenerator(EmbeddingModel):
         )
 
 
-class QueryEngine(EmbeddingGenerator):
-    def __init__(
-        self, model_name: str = "ViT-B-32", pretrained_model: str = "laion2b_s34b_b79k"
-    ):
-        super().__init__(model_name, pretrained_model)
-        self.index = None
+# class QueryEngine(EmbeddingGenerator):
+#     def __init__(
+#         self, model_name: str = "ViT-B-32", pretrained_model: str = "laion2b_s34b_b79k"
+#     ):
+#         super().__init__(model_name, pretrained_model)
+#         self.index = None
 
-    def load_faiss_index(self, index_path: str) -> None:
-        try:
-            self.index = faiss.read_index(index_path)
-            logging.info(f"FAISS index loaded from {index_path}")
-        except Exception as e:
-            logging.error(f"Error loading FAISS index: {e}")
-            raise
+#     def load_faiss_index(self, index_path: str) -> None:
+#         try:
+#             self.index = faiss.read_index(index_path)
+#             logging.info(f"FAISS index loaded from {index_path}")
+#         except Exception as e:
+#             logging.error(f"Error loading FAISS index: {e}")
+#             raise
 
-    def search_images(self, image, k: int = 5) -> tuple:
-        if self.index is None:
-            raise ValueError(
-                "FAISS index has not been loaded. Please load an index first."
-            )
-        image_embedding = self.generate_image_embedding(image)
-        image_query_vector = np.expand_dims(image_embedding, axis=0)
-        distances, indices = self.index.search(image_query_vector, k)
-        return distances, indices
+#     def search_images(self, image, k: int = 5) -> tuple:
+#         if self.index is None:
+#             raise ValueError(
+#                 "FAISS index has not been loaded. Please load an index first."
+#             )
+#         image_embedding = self.generate_image_embedding(image)
+#         image_query_vector = np.expand_dims(image_embedding, axis=0)
+#         distances, indices = self.index.search(image_query_vector, k)
+#         return distances, indices
 
-    def search_text(self, text: str, k: int = 5) -> tuple:
-        if self.index is None:
-            raise ValueError(
-                "FAISS index has not been loaded. Please load an index first."
-            )
-        text_embedding = self.generate_text_embedding(text)
-        text_query_vector = np.expand_dims(text_embedding, axis=0)
-        distances, indices = self.index.search(text_query_vector, k)
-        return distances, indices
+#     def search_text(self, text: str, k: int = 5) -> tuple:
+#         if self.index is None:
+#             raise ValueError(
+#                 "FAISS index has not been loaded. Please load an index first."
+#             )
+#         text_embedding = self.generate_text_embedding(text)
+#         text_query_vector = np.expand_dims(text_embedding, axis=0)
+#         distances, indices = self.index.search(text_query_vector, k)
+#         return distances, indices
 
 
 # Usage Example:
