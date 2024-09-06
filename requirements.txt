@@ -1,9 +1,16 @@
-fastapi
-uvicorn
-numpy
-pandas
+--extra-index-url https://download.pytorch.org/whl/cu118
+
 torch
-tqdm
-faiss-cpu
+torchvision
+torchaudio
 open_clip_torch
+fastapi
+lancedb
+pyarrow
+pandas
+numpy
+rich
 matplotlib
+faiss-cpu
+uvicorn
+python-multipart

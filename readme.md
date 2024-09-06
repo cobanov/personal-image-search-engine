@@ -26,6 +26,13 @@
 
 - [] Test save utils.save_image_paths_as_csv()
 
+## Installation
+
+```
+pip install -r requirements.txt
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
 ## Usage
 
 ```bash
