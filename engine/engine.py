@@ -1,11 +1,12 @@
-
 import numpy as np
 import open_clip
 import pandas as pd
 import torch
 from tqdm import tqdm
-from engine.logging_config import log
+
 from engine import utils
+
+from .logging_config import log
 
 
 class EmbeddingModel:
@@ -98,7 +99,7 @@ class EmbeddingGenerator(EmbeddingModel):
         num_batches = (num_images + batch_size - 1) // batch_size
 
         with torch.no_grad():
-            for i in tqdm(range(num_batches), desc="Generating embeddings"):
+            for i in range(num_batches):
                 batch_images = images[i * batch_size : (i + 1) * batch_size]
                 try:
                     batch_inputs = torch.stack(
@@ -114,7 +115,6 @@ class EmbeddingGenerator(EmbeddingModel):
                     batch_size = max(1, batch_size // 2)  # Reduce the batch size
                     continue
 
-        log.info(f"Total embeddings generated: {len(embeddings)}")
         return np.array(embeddings)
 
     def calculate_probabilities(

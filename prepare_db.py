@@ -3,7 +3,7 @@ from engine import engine
 from engine import database
 from engine.logging_config import log
 
-from tqdm.rich import trange, tqdm
+from tqdm.rich import tqdm
 
 
 il = dataset.ImageLoader("./dataset/flora_images", batch_size=64)
@@ -11,9 +11,8 @@ dl = il.init_dataloader()
 eg = engine.EmbeddingGenerator(
     model_name="ViT-B-32", pretrained_model="laion2b_s34b_b79k"
 )
-db = database.Database("database/nature", "flora_20k", 512)
-tbl = db.get_table()  #! This unnecesary!
-
+db = database.Database("database/nature", "flora_20k_multi", 512)
+tbl = db.get_table()
 
 for img_paths, images in tqdm(dl, desc="Processing Batches"):
     for img_path, image in zip(img_paths, images):

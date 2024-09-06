@@ -3,7 +3,6 @@ import pyarrow as pa
 
 
 class Database:
-
     def __init__(self, uri, table_name, embedding_size):
         self.db = lancedb.connect(uri)
         self.table_name = table_name

@@ -1,7 +1,8 @@
-from rich.logging import RichHandler
 import logging
 import os
 from datetime import datetime
+
+from rich.logging import RichHandler
 
 # Create logs folder if it doesn't exist
 log_dir = "logs"

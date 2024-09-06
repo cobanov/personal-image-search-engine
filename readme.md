@@ -26,14 +26,13 @@
 
 - [] Test save utils.save_image_paths_as_csv()
 
-## Known Problems
-
-### uvicorn environment resolution is problematic
+## Usage
 
 ```bash
-C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload
-C:\Users\hope\miniconda3\envs\engine\python -m uvicorn main:app --reload --host 0.0.0.0 --port 7777
+python -m uvicorn webui.main:app --reload --host 0.0.0.0 --port 7777
 ```
+
+## Known Problems
 
 ### relative and absolute paths for image dataset and image paths
 

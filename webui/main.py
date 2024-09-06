@@ -1,41 +1,39 @@
 import os
 import sys
 
-import pandas as pd
+import lancedb
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 
-sys.path.append(os.path.abspath("../engine"))
-
-from engine import EmbeddingGenerator, QueryEngine
-from utils import read_image
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../engine")))
+from engine import EmbeddingGenerator  # Import the EmbeddingGenerator
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount(
-    "/dataset",
-    StaticFiles(
-        directory="C:/Users/hope/Desktop/developer/personal-image-search-engine/dataset"
-    ),
-    name="dataset",
-)
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-templates = Jinja2Templates(directory="templates")
+dataset_dir = "C:/Users/hope/Desktop/developer/personal-image-search-engine/dataset"
+app.mount("/dataset", StaticFiles(directory=dataset_dir), name="dataset")
+
+templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+templates = Jinja2Templates(directory=templates_dir)
 
 
-index_file_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\flora_sample.index"
-file_paths_path = r"C:\Users\hope\Desktop\developer\personal-image-search-engine\embeddings\flora_sample.csv"
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-query_engine = QueryEngine()
 
-query_engine.load_faiss_index(index_file_path)
-file_paths = pd.read_csv(file_paths_path)["img_path"]
+db = lancedb.connect("./database/nature/")
+tbl = db.open_table("flora_20k_multi")
+
+eg = EmbeddingGenerator(model_name="ViT-B-32", pretrained_model="laion2b_s34b_b79k")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -50,16 +48,19 @@ async def upload_image(file: UploadFile = File(...)):
     with open(file_location, "wb+") as file_object:
         file_object.write(file.file.read())
 
-    img = read_image(file_location)
-    distances, indices = query_engine.search_images(img, 24)
-    nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
+    image_embedding = eg.generate_image_embedding_from_path(file_location)
+    neighbors = tbl.search(image_embedding).limit(24).to_pandas()
+    neighbors_distances = neighbors["_distance"].to_list()
+    neighbors_paths = neighbors["img_path"].to_list()
 
-    return {"image_paths": nearest_neighbors_paths}
+    return {"image_paths": neighbors_paths}
 
 
 @app.post("/search/")
 async def search(query: str = Form(...)):
-    distances, indices = query_engine.search_text(query, 24)
-    nearest_neighbors_paths = [file_paths[i] for i in indices[0]]
+    text_embedding = eg.generate_text_embedding(query)
+    neighbors = tbl.search(text_embedding).limit(24).to_pandas()
+    neighbors_distances = neighbors["_distance"].to_list()
+    neighbors_paths = neighbors["img_path"].to_list()
 
-    return {"image_paths": nearest_neighbors_paths}
+    return {"image_paths": neighbors_paths}

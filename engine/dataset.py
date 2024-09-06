@@ -25,7 +25,6 @@ class ImageDataset(Dataset):
 
 class ImageLoader:
     def __init__(self, image_directory, batch_size=32):
-
         self.dataset = ImageDataset(image_directory)
         self.img_paths = self.dataset.img_paths
         self.batch_size = batch_size
