@@ -1,14 +1,11 @@
-import logging
 
 import numpy as np
 import open_clip
 import pandas as pd
 import torch
 from tqdm import tqdm
-
+from engine.logging_config import log
 from engine import utils
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
 
 class EmbeddingModel:
@@ -28,18 +25,18 @@ class EmbeddingModel:
             model = model.to(self.device)
             model.eval()
             tokenizer = open_clip.get_tokenizer(model_name)
-            logging.info(
+            log.info(
                 f"Successfully loaded model {model_name} with pretrained weights {pretrained_model}"
             )
             return model, tokenizer, preprocess
         except Exception as e:
-            logging.error(f"Error loading model: {e}")
+            log.error(f"Error loading model: {e}")
             raise
 
     @staticmethod
     def save_embeddings_as_npy(embeddings: np.ndarray, save_path: str) -> None:
         np.save(save_path, np.array(embeddings))
-        logging.info(f"Embeddings saved to {save_path}.npy")
+        log.info(f"Embeddings saved to {save_path}.npy")
 
     @staticmethod
     def save_file_paths(file_paths: list, save_path: str) -> None:
@@ -47,16 +44,16 @@ class EmbeddingModel:
             save_path += ".csv"
         df = pd.DataFrame({"file_path": file_paths})
         df.to_csv(save_path, index=True)
-        logging.info(f"File paths saved to {save_path}.csv")
+        log.info(f"File paths saved to {save_path}.csv")
 
     # @staticmethod
     # def save_faiss_index(embeddings: np.ndarray, save_path: str) -> None:
     #     embedding_dim = embeddings.shape[1]
     #     index = faiss.IndexFlatL2(embedding_dim)
     #     index.add(embeddings)
-    #     logging.info(f"Total number of embeddings indexed: {index.ntotal}")
+    #     log.info(f"Total number of embeddings indexed: {index.ntotal}")
     #     faiss.write_index(index, save_path)
-    #     logging.info(f"FAISS index saved to {save_path}")
+    #     log.info(f"FAISS index saved to {save_path}")
 
 
 class EmbeddingGenerator(EmbeddingModel):
@@ -64,6 +61,7 @@ class EmbeddingGenerator(EmbeddingModel):
         self, model_name: str = "ViT-B-32", pretrained_model: str = "laion2b_s34b_b79k"
     ):
         super().__init__(model_name, pretrained_model)
+        log.info(f"Using device: {self.device}")
 
     def generate_text_embedding(self, text: str) -> np.ndarray:
         text_input = self.tokenizer([text]).to(self.device)
@@ -86,10 +84,10 @@ class EmbeddingGenerator(EmbeddingModel):
             image = utils.read_image(image_path)
             return self.generate_image_embedding(image)
         except FileNotFoundError:
-            logging.error(f"Image file {image_path} not found.")
+            log.error(f"Image file {image_path} not found.")
             raise
         except Exception as e:
-            logging.error(f"Error processing image {image_path}: {e}")
+            log.error(f"Error processing image {image_path}: {e}")
             raise
 
     def generate_image_embeddings(
@@ -110,13 +108,13 @@ class EmbeddingGenerator(EmbeddingModel):
                     batch_features /= batch_features.norm(dim=-1, keepdim=True)
                     embeddings.extend(batch_features.cpu().numpy())
                 except RuntimeError as e:
-                    logging.error(
+                    log.error(
                         f"Error processing batch {i}, trying smaller batch size: {e}"
                     )
                     batch_size = max(1, batch_size // 2)  # Reduce the batch size
                     continue
 
-        logging.info(f"Total embeddings generated: {len(embeddings)}")
+        log.info(f"Total embeddings generated: {len(embeddings)}")
         return np.array(embeddings)
 
     def calculate_probabilities(

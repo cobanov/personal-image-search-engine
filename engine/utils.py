@@ -1,5 +1,4 @@
 import glob
-import logging
 import os
 from multiprocessing import Pool, cpu_count
 from typing import Dict, List, Optional
@@ -7,8 +6,7 @@ from typing import Dict, List, Optional
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
+from engine.logging_config import log
 
 
 def find_images(image_directory: str) -> List[str]:
@@ -24,7 +22,7 @@ def find_images(image_directory: str) -> List[str]:
         for ext in extensions
         for img in glob.glob(os.path.join(image_directory, ext))
     ]
-    logging.info(f"Images found: {len(image_paths)}")
+    log.info(f"Images found: {len(image_paths)}")
     return image_paths
 
 
@@ -39,9 +37,9 @@ def save_filelist(filelist: List[str], filelist_path: str) -> None:
         with open(filelist_path, "w") as f:
             for path in filelist:
                 f.write(f"{path}\n")
-        logging.info(f"File list saved to {filelist_path}")
+        log.info(f"File list saved to {filelist_path}")
     except Exception as e:
-        logging.error(f"Failed to save file list to {filelist_path}: {e}")
+        log.error(f"Failed to save file list to {filelist_path}: {e}")
 
 
 # def load_from_filelist(filelist_path: str) -> List[str]:
@@ -56,7 +54,7 @@ def save_filelist(filelist: List[str], filelist_path: str) -> None:
 #             filelist = f.read().splitlines()
 #         return filelist
 #     except Exception as e:
-#         logging.error(f"Failed to load file list from {filelist_path}: {e}")
+#         log.error(f"Failed to load file list from {filelist_path}: {e}")
 #         return []
 
 
@@ -72,7 +70,7 @@ def read_image(image_path: str) -> Optional[Image.Image]:
         return img
     except Exception as e:
         norm_path = os.path.normpath(image_path)
-        logging.warning(f"Failed to read {norm_path}: {e}")
+        log.warning(f"Failed to read {norm_path}: {e}")
         return None
 
 
@@ -114,7 +112,7 @@ def process_images(
         if result is not None:
             results.append(result)
 
-    logging.info(f"Images processed successfully: {len(results)}")
+    log.info(f"Images processed successfully: {len(results)}")
     return results
 
 
@@ -132,7 +130,7 @@ def process_images(
 #     if num_workers is None:
 #         num_workers = max(1, cpu_count() - 2)  # Ensure at least 1 worker
 
-#     logging.info(f"Using {num_workers} worker processes.")
+#     log.info(f"Using {num_workers} worker processes.")
 
 #     results = []
 #     try:
@@ -144,8 +142,8 @@ def process_images(
 #                 if result is not None:
 #                     results.append(result)
 #     except Exception as e:
-#         logging.error(f"Error during multiprocessing: {e}")
+#         log.error(f"Error during multiprocessing: {e}")
 #     finally:
-#         logging.info(f"Images processed successfully: {len(results)}")
+#         log.info(f"Images processed successfully: {len(results)}")
 
 #     return results
