@@ -5,15 +5,20 @@
 ## To-Do
 
 - [ ] Find a suitable name for the project.
+- [ ] Load image paths from `filelist.txt`.
+- [ ] Integrate Face Detection Engine.
+- [ ] Vector database merging funcitions needed.
+- [ ] Dataset preperations scripts.
+  - [ ] Tutorials and descriptive ipynb notebooks.
+- [ ] Make database and table connections generic.
+  - [ ] Could be selectable from ui?
 - [x] Enable multiprocessing for image reading.
-- [ ] Implement multi-GPU support for embedding calculations.
+- [x] Implement multi-GPU support for embedding calculations.
 - [x] Save embeddings in a designated folder (create if not exists).
 - [x] Implement a FastAPI-based interface.
 - [x] Build a web app.
 - [x] Create a Dockerfile for easy deployment.
-- [ ] Integrate Face Detection Engine.
 - [x] Migrate the database to LanceDB.
-- [ ] Load image paths from `filelist.txt`.
 - [x] Separate logging functionality for better modularity.
 - [x] Integrate LanceDB with the web app.
 - [x] Fix batch processing in embedding calculations using `torch.stack()`.

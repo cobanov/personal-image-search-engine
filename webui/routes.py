@@ -12,8 +12,8 @@ from starlette.requests import Request
 router = APIRouter()
 
 # Connect to LanceDB
-db = lancedb.connect("./database/nature/")
-tbl = db.open_table("flora_20k_multi")
+db = lancedb.connect("./database/instagram/")
+tbl = db.open_table("random_instagram")
 
 # Initialize Embedding Generator
 eg = EmbeddingGenerator(model_name="ViT-B-32", pretrained_model="laion2b_s34b_b79k")
