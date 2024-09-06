@@ -1,5 +1,4 @@
->  ## ⚠️  **Warning:** This project is under heavy development and may undergo significant changes.
-
+> ## ⚠️ **Warning:** This project is under heavy development and may undergo significant changes.
 
 # Personal Image Search Engine
 
@@ -8,13 +7,20 @@
 - [ ] Find a good name for the project
 - [x] Multiprocessing image reading
 - [ ] Multigpu embedding calculation
-- [ ] Save embedddings embeddings folder, create if not exists
+- [x] Save embedddings embeddings folder, create if not exists
 - [x] FastAPI interface
 - [x] Web app
 - [ ] dockerfile
 - [ ] Face Engine
-- [ ] Migrate DB to LanceDB
+- [x] Migrate DB to LanceDB
 - [ ] Load imagepaths from filelist.txt
+- [ ] Logging should be seperate
+- [ ] Lancdb on webapp
+- [ ] I don't think batch processing works properly, use torch stack
+
+## Benchmarks
+
+- _20k images 25min on 3090ti 06.09.2024_
 
 ## Tasks
 
