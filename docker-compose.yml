@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "7777:7777"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=7777
+    volumes:
+      - .:/app
+    command: uvicorn webui.main:app --reload --host 0.0.0.0 --port 7777

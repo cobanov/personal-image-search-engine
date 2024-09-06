@@ -33,6 +33,19 @@ pip install -r requirements.txt
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
+## Docker
+
+```bash
+docker build -t personal-image-search .
+docker run -p 7777:7777 personal-image-search
+```
+
+or
+
+```bash
+docker-compose up --build
+```
+
 ## Usage
 
 ```bash
