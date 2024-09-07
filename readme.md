@@ -12,6 +12,7 @@
   - [ ] Tutorials and descriptive ipynb notebooks.
 - [ ] Make database and table connections generic.
   - [ ] Could be selectable from ui?
+- [x] Configure everything with yaml file.
 - [x] Enable multiprocessing for image reading.
 - [x] Implement multi-GPU support for embedding calculations.
 - [x] Save embeddings in a designated folder (create if not exists).
@@ -27,35 +28,9 @@
 
 - **Performance**: _20k images processed in 13 minutes on an NVIDIA 3090 Ti (as of 06.09.2024)._
 
-## Installation
-
-To get started, install the required packages:
-
-```bash
-pip install -r requirements.txt
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-```
-
-## Docker
-
-You can build and run the project using Docker:
-
-```bash
-docker build -t personal-image-search .
-docker run -p 7777:7777 personal-image-search
-```
-
-Alternatively, using Docker Compose:
-
-```bash
-docker-compose up --build
-```
-
 ## Usage
 
-### Running the FastAPI app using scripts
-
-#### Windows
+### Windows
 
 Run the following script:
 
@@ -63,7 +38,7 @@ Run the following script:
 start_server.bat
 ```
 
-#### Linux/macOS
+### Linux/macOS
 
 First, ensure the script has executable permissions:
 
@@ -85,4 +60,19 @@ In case you encounter issues related to `lib40ml`, you can resolve them by setti
 
 ```python
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+```
+
+## Docker
+
+You can build and run the project using Docker:
+
+```bash
+docker build -t personal-image-search .
+docker run -p 7777:7777 personal-image-search
+```
+
+Alternatively, using Docker Compose:
+
+```bash
+docker-compose up --build
 ```
