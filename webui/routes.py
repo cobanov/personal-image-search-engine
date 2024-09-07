@@ -8,15 +8,18 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 
+from webui.config import db_path, model_name, pretrained_model, table_name
+
 # Initialize router
 router = APIRouter()
 
+
 # Connect to LanceDB
-db = lancedb.connect("./database/nature/")
-tbl = db.open_table("flora_20k_multi")
+db = lancedb.connect(db_path)
+tbl = db.open_table(table_name)
 
 # Initialize Embedding Generator
-eg = EmbeddingGenerator(model_name="ViT-B-32", pretrained_model="laion2b_s34b_b79k")
+eg = EmbeddingGenerator(model_name=model_name, pretrained_model=pretrained_model)
 
 templates_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 templates = Jinja2Templates(directory=templates_dir)
