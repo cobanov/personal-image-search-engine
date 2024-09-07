@@ -1,18 +1,30 @@
+import yaml
+from engine import dataset
+from engine import engine
+from engine import database
+from engine.logging_config import log
 from tqdm.rich import tqdm
 
-from engine import database, dataset, engine
-from engine.logging_config import log
+# Load configuration from config.yaml
+with open("config.yaml", "r") as file:
+    config = yaml.safe_load(file)
 
-batch_size = 64
+# Retrieve settings from config
+batch_size = config["dataset"]["batch_size"]
+image_folder = config["dataset"]["images_path"]
+db_path = config["database"]["path"]
+table_name = config["database"]["table_name"]
+embedding_dim = config["database"]["embedding_dim"]
+model_name = config["model"]["name"]
+pretrained_model = config["model"]["pretrained_model"]
+
 # ImageLoader and DataLoader setup
-il = dataset.ImageLoader("./dataset/instagram_images", batch_size=batch_size)
+il = dataset.ImageLoader(image_folder, batch_size=batch_size)
 dl = il.init_dataloader()
 
 # EmbeddingGenerator and Database setup
-eg = engine.EmbeddingGenerator(
-    model_name="ViT-B-32", pretrained_model="laion2b_s34b_b79k"
-)
-db = database.Database("database/instagram", "random_instagram", 512)
+eg = engine.EmbeddingGenerator(model_name=model_name, pretrained_model=pretrained_model)
+db = database.Database(db_path, table_name, embedding_dim)
 tbl = db.get_table()
 
 for img_paths, images in tqdm(dl, desc="Processing Batches"):
