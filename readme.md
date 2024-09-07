@@ -2,7 +2,7 @@
 
 # Personal Image Search Engine
 
-![](assets/demo.gif)
+![](assets/demo_text.gif)
 
 ## To-Do
 
