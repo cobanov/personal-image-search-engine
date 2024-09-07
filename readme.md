@@ -2,6 +2,8 @@
 
 # Personal Image Search Engine
 
+![](assets/demo.gif)
+
 ## To-Do
 
 - [ ] Find a suitable name for the project.
