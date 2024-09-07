@@ -65,7 +65,9 @@ class EmbeddingGenerator(EmbeddingModel):
 
     def generate_text_embedding(self, text: str) -> np.ndarray:
         text_input = self.tokenizer([text]).to(self.device)
-        with torch.no_grad():
+        with torch.no_grad(), torch.autocast(
+            "cuda",
+        ):
             text_features = self.model.encode_text(text_input)
             text_features /= text_features.norm(dim=-1, keepdim=True)
             text_features = text_features.squeeze(0)
@@ -73,7 +75,9 @@ class EmbeddingGenerator(EmbeddingModel):
 
     def generate_image_embedding(self, image) -> np.ndarray:
         image_input = self.preprocess(image).unsqueeze(0).to(self.device)
-        with torch.no_grad():
+        with torch.no_grad(), torch.autocast(
+            "cuda",
+        ):
             image_features = self.model.encode_image(image_input)
             image_features /= image_features.norm(dim=-1, keepdim=True)
             image_features = image_features.squeeze(0)
@@ -97,7 +101,9 @@ class EmbeddingGenerator(EmbeddingModel):
         num_images = len(images)
         num_batches = (num_images + batch_size - 1) // batch_size
 
-        with torch.no_grad():
+        with torch.no_grad(), torch.autocast(
+            "cuda",
+        ):
             for i in range(num_batches):
                 batch_images = images[i * batch_size : (i + 1) * batch_size]
                 try:
