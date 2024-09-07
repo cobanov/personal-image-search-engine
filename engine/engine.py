@@ -3,9 +3,8 @@ import open_clip
 import pandas as pd
 import torch
 
-from engine import utils
-
-from .logging_config import log
+from engine import handle_warnings, utils
+from engine.logging_config import log
 
 
 class EmbeddingModel:

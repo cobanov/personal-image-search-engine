@@ -1,9 +1,7 @@
-from engine import dataset
-from engine import engine
-from engine import database
-from engine.logging_config import log
 from tqdm.rich import tqdm
 
+from engine import database, dataset, engine
+from engine.logging_config import log
 
 batch_size = 64
 # ImageLoader and DataLoader setup
