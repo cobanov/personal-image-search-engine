@@ -1,10 +1,10 @@
 database:
-  path: "database/nature"
-  table_name: "flora_20k_multi"
+  path: "database"
+  table_name: "coco_82k"
   embedding_dim: 512
 
 dataset:
-  images_path: "./dataset/flora_images"
+  images_path: "./dataset/coco_random"
   batch_size: 64
 
 model:

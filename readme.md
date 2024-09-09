@@ -10,6 +10,7 @@
 - [ ] Load image paths from `filelist.txt`.
 - [ ] Integrate Face Detection Engine.
 - [ ] Vector database merging funcitions needed.
+- [ ] Add image to text decoder
 - [ ] Dataset preperations scripts.
   - [ ] Tutorials and descriptive ipynb notebooks.
 - [ ] Make database and table connections generic.
