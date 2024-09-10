@@ -15,6 +15,7 @@
   - [ ] Tutorials and descriptive ipynb notebooks.
 - [ ] Make database and table connections generic.
   - [ ] Could be selectable from ui?
+- [ ] Webui Pagination for more images.
 - [x] Configure everything with yaml file.
 - [x] Enable multiprocessing for image reading.
 - [x] Implement multi-GPU support for embedding calculations.
@@ -29,7 +30,10 @@
 
 ## Benchmarks
 
-- **Performance**: _20k images processed in 13 minutes on an NVIDIA 3090 Ti (as of 06.09.2024)._
+**Performance**:
+
+- NVIDIA A100 **151.8 images per second**
+- NVIDIA 3090 Ti **80.3 images per second**
 
 ## Usage
 
